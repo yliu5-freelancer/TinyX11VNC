@@ -1,0 +1,42 @@
+/* main cursor */
+#include "cursor_image.h"
+
+char* cursor_arrow_data =
+"                  "
+" x                "
+" xx               "
+" xxx              "
+" xxxx             "
+" xxxxx            "
+" xxxxxx           "
+" xxxxxxx          "
+" xxxxxxxx         "
+" xxxxx            "
+" xx xx            "
+" x   xx           "
+"     xx           "
+"      xx          "
+"      xx          "
+"                  "
+"                  "
+"                  ";
+
+char* cursor_arrow_mask =
+"xx                "
+"xxx               "
+"xxxx              "
+"xxxxx             "
+"xxxxxx            "
+"xxxxxxx           "
+"xxxxxxxx          "
+"xxxxxxxxx         "
+"xxxxxxxxxx        "
+"xxxxxxxxxx        "
+"xxxxxxx           "
+"xxx xxxx          "
+"xx  xxxx          "
+"     xxxx         "
+"     xxxx         "
+"      xx          "
+"                  "
+"                  ";
