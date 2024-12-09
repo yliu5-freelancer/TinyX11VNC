@@ -1,7 +1,7 @@
 VNCSERVER_LIBS=-lvncserver
 XCB_LIBS=-lxcb -lxcb-xtest -lxcb-xfixes -lxcb-keysyms
 LIBS=$(VNCSERVER_LIBS) $(XCB_LIBS)
-TARGET_SERVER=x11-vncserver/simple-x11vnc
+TARGET_SERVER=x11-vncserver/tiny-x11vnc
 
 all: server
 server:
