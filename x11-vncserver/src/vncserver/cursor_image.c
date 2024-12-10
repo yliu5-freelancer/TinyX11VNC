@@ -1,4 +1,3 @@
-/* main cursor */
 #include "cursor_image.h"
 
 char* cursor_arrow_data =
