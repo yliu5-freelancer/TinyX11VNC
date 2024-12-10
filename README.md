@@ -12,6 +12,19 @@ I also trying to support macOS and some Linux distributions.
 4. Run `tiny-x11vnc`, and using any vnc client to connection your Linux machine.
 5. The basic mouse events, keyboard events and screen info have been implemented.
 
+## Dependency Tools
+Please ensure some libraries exists on your machine.
+1. libvncserver
+2. libxcb, libxcb-xtest, libxcb-xfixes, libxcb-keysyms, libxcb-damage
+
+## Todo List
+- [x] Complete a basic VNC server and enabled keyboard, mouse, and screen capture.
+- [ ] Feature: Enable auto-scaling for X11 VNC server.
+- [ ] Feature: Support XDamage to reduce CPU usage and frequency of framebuffer updates.
+- [ ] Feature: Enable all keys on keyboard for X11 VNC server.
+- [ ] Feature: Enhance mouse pointer to fit some shapes, for instance: arrow, watch, hand, resize, etc.
+
+
 ## Demo
 
 ## Unit Test
