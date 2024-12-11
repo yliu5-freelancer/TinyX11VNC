@@ -1,7 +1,7 @@
 # TinyX11VNC
 
 ## Introduce
-This project is written at 09/12/2024. It refrenced more libraries, including libvncserver, libxcb, etc.
+This project is written at 09/12/2024. It referenced more libraries, including libvncserver, libxcb, etc.
 Next, I will continue to enhance some features of this project.
 I also trying to support macOS and some Linux distributions.
 
