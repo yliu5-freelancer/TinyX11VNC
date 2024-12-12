@@ -11,8 +11,6 @@
 #include <libgen.h>
 #include <assert.h>
 
-// #include <ffmpeg/libswscale/swscale.h>
-// #include <ffmpeg/libavutil/pixfmt.h>
 #include <rfb/rfb.h>
 #include <xcb/xcb.h>
 #include <xcb/xtest.h>
@@ -223,10 +221,10 @@ capture_screen(int which)
     int capture_xpos, capture_ypos;
 
     screen = g_xcbscreen_ptr->screens[which];
-    capture_width = screen.dmg_area_width == 0 ? screen.default_width : screen.dmg_area_width;
-    capture_height = screen.dmg_area_height == 0 ? screen.default_height : screen.dmg_area_height;
-    capture_xpos = screen.dmg_xpos;
-    capture_ypos = screen.dmg_ypos;
+    capture_width = screen.window_damage.damage_area_width == 0 ? screen.default_width : screen.window_damage.damage_area_width;
+    capture_height = screen.window_damage.damage_area_height == 0 ? screen.default_height : screen.window_damage.damage_area_height;
+    capture_xpos = screen.window_damage.damage_xpos;
+    capture_ypos = screen.window_damage.damage_ypos;
 
     xcb_get_image_cookie_t image_cookie = xcb_get_image(g_xcbscreen_ptr->connection, 
         XCB_IMAGE_FORMAT_Z_PIXMAP, screen.root_window,
@@ -284,13 +282,6 @@ void parse_command_line(int argc, char *argv[])
     }
 }
 
-static void
-init_vncserver_secret()
-{
-    snprintf(g_secret_store, PATH_MAX, "%s%s.%d", VNCSERVER_SECRET_PATH, "secret", getpid());
-    rfbEncryptAndStorePasswd((char *) VNCSERVER_SECRET, (char *) g_secret_store);
-}
-
 static int
 init_xcbscreen_info()
 {
@@ -317,10 +308,10 @@ init_xcbscreen_info()
         g_xcbscreen_ptr->screens[screen_nums].root_window = screen->root;
 
         // Setup screen info
-        g_xcbscreen_ptr->screens[screen_nums].dmg_xpos = 0;
-        g_xcbscreen_ptr->screens[screen_nums].dmg_ypos = 0;
-        g_xcbscreen_ptr->screens[screen_nums].dmg_area_width = screen->width_in_pixels;
-        g_xcbscreen_ptr->screens[screen_nums].dmg_area_height= screen->height_in_pixels;
+        g_xcbscreen_ptr->screens[screen_nums].window_damage.damage_xpos = 0;
+        g_xcbscreen_ptr->screens[screen_nums].window_damage.damage_ypos = 0;
+        g_xcbscreen_ptr->screens[screen_nums].window_damage.damage_area_width = screen->width_in_pixels;
+        g_xcbscreen_ptr->screens[screen_nums].window_damage.damage_area_height= screen->height_in_pixels;
         g_xcbscreen_ptr->screens[screen_nums].default_width = screen->width_in_pixels;
         g_xcbscreen_ptr->screens[screen_nums].default_height = screen->height_in_pixels;
         g_xcbscreen_ptr->screens[screen_nums].scaled_width = screen->width_in_pixels;
@@ -340,6 +331,52 @@ init_xcbscreen_info()
         g_xcbscreen_ptr->screen_nums = ++screen_nums;
         xcb_screen_next(&iter);
     }
+}
+
+static void
+init_xcb_damage_ext()
+{
+    xcb_query_extension_cookie_t cookie = xcb_query_extension(g_xcbscreen_ptr->connection, strlen("DAMAGE"), "DAMAGE");
+	xcb_query_extension_reply_t *reply = xcb_query_extension_reply(g_xcbscreen_ptr->connection, cookie, NULL);
+    xcb_generic_error_t *xcb_error;
+
+    g_xcbscreen_ptr->damage_cookie = xcb_damage_query_version(g_xcbscreen_ptr->connection,
+        XCB_DAMAGE_MAJOR_VERSION, XCB_DAMAGE_MINOR_VERSION);
+    g_xcbscreen_ptr->damage_version_reply = xcb_damage_query_version_reply(g_xcbscreen_ptr->connection,
+        g_xcbscreen_ptr->damage_cookie, &xcb_error);
+    if (!g_xcbscreen_ptr->damage_version_reply) {
+        fprintf(stderr, "Initialize DAMAGE extension failed.\n");
+        return;
+    }
+    printf("The DAMAGE extension version(%d,%d)\n", XCB_DAMAGE_MAJOR_VERSION, XCB_DAMAGE_MINOR_VERSION);
+    g_xcbscreen_ptr->damage_report_level = XCB_DAMAGE_REPORT_LEVEL_NON_EMPTY;
+    g_xcbscreen_ptr->damage_id = xcb_generate_id(g_xcbscreen_ptr->connection);
+    g_xcbscreen_ptr->screens[DEFAULT_SCREEN_NUM].window_damage.window_damage_cookie = xcb_damage_create(
+        g_xcbscreen_ptr->connection,
+        g_xcbscreen_ptr->damage_id,
+        g_xcbscreen_ptr->screens[DEFAULT_SCREEN_NUM].root_window,
+        g_xcbscreen_ptr->damage_report_level);
+    g_xcbscreen_ptr->xcb_event = NULL;
+    g_xcbscreen_ptr->screens[DEFAULT_SCREEN_NUM].window_damage.damage_event = reply->first_event + XCB_DAMAGE_NOTIFY;
+    xcb_error = xcb_request_check(g_xcbscreen_ptr->connection,
+        g_xcbscreen_ptr->screens[DEFAULT_SCREEN_NUM].window_damage.window_damage_cookie);
+    if (xcb_error) {
+        fprintf(stderr, "Failed to create damage object: error code %d\n", xcb_error->error_code);
+        return;
+    }
+}
+
+static void
+init_xcb_exts()
+{
+    init_xcb_damage_ext();
+}
+
+static void
+init_vncserver_secret()
+{
+    snprintf(g_secret_store, PATH_MAX, "%s%s.%d", VNCSERVER_SECRET_PATH, "secret", getpid());
+    rfbEncryptAndStorePasswd((char *) VNCSERVER_SECRET, (char *) g_secret_store);
 }
 
 int
@@ -401,9 +438,7 @@ free_xcbscreen()
 
 int main(int argc, char *argv[])
 {
-    xcb_damage_query_version_cookie_t damage_cookie;
-    xcb_damage_query_version_reply_t *damage_version;
-    uint32_t damage_major_version = 1, damage_minor_version = 1;
+    // uint32_t damage_major_version = 0, damage_minor_version = 0;
     xcb_generic_error_t *error;
 
     if (argc < 2) {
@@ -416,50 +451,44 @@ int main(int argc, char *argv[])
 
     parse_command_line(argc, argv);
     init_xcbscreen_info();
+    init_xcb_exts();
     init_vncserver_secret();
     init_vncserver_info(argc, argv, VNCSERVER_PORT, HTTP_VNCSERVER_PORT);
     rfbRunEventLoop(g_rfbscreen_ptr[DEFAULT_SCREEN_NUM], 10000, TRUE);
 
-    damage_cookie = xcb_damage_query_version(g_xcbscreen_ptr->connection,
-        damage_major_version, damage_minor_version);
-    damage_version = xcb_damage_query_version_reply(g_xcbscreen_ptr->connection,
-        damage_cookie, &error);
-    xcb_damage_damage_t damage = 0;
-    uint32_t report_level = XCB_DAMAGE_REPORT_LEVEL_NON_EMPTY;
-    xcb_void_cookie_t damage_create_cookie = xcb_damage_create(
-        g_xcbscreen_ptr->connection,
-        damage,
-        g_xcbscreen_ptr->screens[DEFAULT_SCREEN_NUM].screen->root,
-        report_level);
-    xcb_generic_event_t *xcb_event = NULL;
-    error = xcb_request_check(g_xcbscreen_ptr->connection, damage_create_cookie);
-    if (error) {
-        fprintf(stderr, "Failed to create damage object: error code %d\n", error->error_code);
-    }
-
+    xcb_change_window_attributes(g_xcbscreen_ptr->connection,
+                                g_xcbscreen_ptr->screens[DEFAULT_SCREEN_NUM].screen->root,
+                                XCB_CW_EVENT_MASK,
+                                (const uint32_t[]) {XCB_EVENT_MASK_EXPOSURE});
+    xcb_flush(g_xcbscreen_ptr->connection);
     while (TRUE) {
-        // if (damage_version) {
-        //     xcb_event = xcb_wait_for_event(g_xcbscreen_ptr->connection);
-        //     if (xcb_event) {
-        //         if ((xcb_event->response_type & ~0x80)== XCB_DAMAGE_NOTIFY) {
-        //             xcb_damage_notify_event_t *damage_event = (xcb_damage_notify_event_t *)xcb_event;
-
-        //             fprintf(stderr, "x, y, width, height: %d, %d, %d, %d\n", );
-                   
-        //             g_xcbscreen_ptr->screens[DEFAULT_SCREEN_NUM].dmg_xpos = damage_event->area.x;
-        //             g_xcbscreen_ptr->screens[DEFAULT_SCREEN_NUM].dmg_ypos = damage_event->area.y;
-        //             if (damage_event->area.width != 0) {
-        //                             fprintf(stderr, "Change damage width!\n");
-        //                 g_xcbscreen_ptr->screens[DEFAULT_SCREEN_NUM].dmg_area_width = damage_event->area.width;
-        //             }
-        //             if (damage_event->area.height != 0) {
-        //                             fprintf(stderr, "Change damage height!\n");
-        
-        //             g_xcbscreen_ptr->screens[DEFAULT_SCREEN_NUM].dmg_area_height = damage_event->area.height;
-        //             }
-        //         }
-        //     }
-        // }
+        g_xcbscreen_ptr->xcb_event = xcb_wait_for_event(g_xcbscreen_ptr->connection);
+        if (g_xcbscreen_ptr->xcb_event) {
+            if ((g_xcbscreen_ptr->xcb_event->response_type & ~0x80)== 
+                 g_xcbscreen_ptr->screens[DEFAULT_SCREEN_NUM].window_damage.damage_event) {
+                xcb_damage_notify_event_t *damage_event = (xcb_damage_notify_event_t *)g_xcbscreen_ptr->xcb_event;
+                #ifdef DEBUG
+                fprintf(stderr, "x, y, width, height: %d, %d, %d, %d\n", damage_event->area.x, damage_event->area.y,
+                    damage_event->area.width, damage_event->area.height);
+                #endif
+                g_xcbscreen_ptr->screens[DEFAULT_SCREEN_NUM].window_damage.damage_xpos = damage_event->area.x;
+                g_xcbscreen_ptr->screens[DEFAULT_SCREEN_NUM].window_damage.damage_ypos= damage_event->area.y;
+                if (damage_event->area.width != 0 && damage_event->area.height != 0) {
+                    g_xcbscreen_ptr->screens[DEFAULT_SCREEN_NUM].window_damage.damage_area_width = damage_event->area.width;
+                    g_xcbscreen_ptr->screens[DEFAULT_SCREEN_NUM].window_damage.damage_area_height = damage_event->area.height;
+                }
+                xcb_xfixes_query_version_cookie_t xfixes_cookie = xcb_xfixes_query_version(
+                    g_xcbscreen_ptr->connection, XCB_XFIXES_MAJOR_VERSION, XCB_XFIXES_MINOR_VERSION
+                );
+                xcb_xfixes_query_version_reply_t *xfixes_reply = xcb_xfixes_query_version_reply(
+                    g_xcbscreen_ptr->connection,
+                    xfixes_cookie,
+                    NULL
+                );
+                
+                xcb_damage_subtract(g_xcbscreen_ptr->connection, g_xcbscreen_ptr->damage_id, XCB_NONE, XCB_NONE);
+            }
+        }
         capture_screen(DEFAULT_SCREEN_NUM);
     }
 err:
