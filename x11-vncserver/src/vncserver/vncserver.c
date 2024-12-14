@@ -48,17 +48,23 @@ print_usage(int argc, char *argv[])
 }
 
 void
-client_disconnection(rfbClientPtr client)
+client_gone_callback(rfbClientPtr client)
 {
     free(client->clientData);
     client->clientData = NULL;
+}
+
+void
+client_fb_update_request_callback(rfbClientPtr client, rfbFramebufferUpdateRequestMsg *furMsg)
+{
 }
 
 enum rfbNewClientAction
 get_new_client_connection(rfbClientPtr client)
 {
     client->clientData = NULL;
-    client->clientGoneHook = client_disconnection;
+    client->clientGoneHook = client_gone_callback;
+    client->clientFramebufferUpdateRequestHook = client_fb_update_request_callback;
     return RFB_CLIENT_ACCEPT;
 }
 
@@ -176,6 +182,25 @@ keyboard_event_callback(rfbBool down,
                         rfbClientPtr client)
 {
     send_keysym_to_xserver(g_xcbscreen_ptr->connection, key_sym, down);
+}
+
+static int
+desktopsize_event_callback(int width,
+                           int height,
+                           int numScreens,
+                           struct rfbExtDesktopScreen* extDesktopScreens,
+                           struct _rfbClientRec* cl)
+{
+    fprintf(stdout, "The new event desktop size is: (%d, %d)\n", width, height);
+    return 0;
+}
+
+static rfbBool
+ext_desktop_screen_event_callback(int seqnumber,
+                                  struct rfbExtDesktopScreen *extDesktopScreen,
+                                  struct _rfbClientRec* cl)
+{
+    return TRUE;
 }
 
 enum xcb_image_pixfmt_t
@@ -367,9 +392,26 @@ init_xcb_damage_ext()
 }
 
 static void
+init_xcb_xfixes_ext()
+{
+    /* TODO:
+     *  Initialize the xfixes extensions, and make sure the XFixes extension is being support.
+     */
+}
+
+static void
+init_xcb_xshm_ext()
+{
+    /* TODO:
+     *  Make sure the X shared memroy is being support.
+     */
+}
+
+static void
 init_xcb_exts()
 {
     init_xcb_damage_ext();
+    init_xcb_xfixes_ext();
 }
 
 static void
@@ -411,6 +453,8 @@ init_vncserver_info(int argc,
         g_rfbscreen_ptr[i]->httpEnableProxyConnect = TRUE;
         g_rfbscreen_ptr[i]->ptrAddEvent = pointer_event_callback;
         g_rfbscreen_ptr[i]->kbdAddEvent = keyboard_event_callback;
+        g_rfbscreen_ptr[i]->setDesktopSizeHook = desktopsize_event_callback;
+        g_rfbscreen_ptr[i]->getExtDesktopScreenHook = ext_desktop_screen_event_callback;
         rfbInitServer(g_rfbscreen_ptr[i]);
     }
 }
