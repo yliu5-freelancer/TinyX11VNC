@@ -165,7 +165,6 @@ get_current_cursor_shape_bypos(int which, int x, int y)
     }
     xfixes_cursor_name_cookie= xcb_xfixes_get_cursor_image_and_name(g_xcbscreen_ptr->connection);
     xfixes_cursor_name_reply = xcb_xfixes_get_cursor_image_and_name_reply(g_xcbscreen_ptr->connection, xfixes_cursor_name_cookie, NULL);
-            printf("The atom is %d\n", xfixes_cursor_name_reply->cursor_atom);
 
     switch (xfixes_cursor_name_reply->cursor_atom) {
     case 446:
