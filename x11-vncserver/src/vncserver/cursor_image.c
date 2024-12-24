@@ -1,6 +1,6 @@
 #include "cursor_image.h"
 
-char* cursor_arrow_data =
+char *cursor_arrow_data =
 "                  "
 " x                "
 " xx               "
@@ -20,7 +20,7 @@ char* cursor_arrow_data =
 "                  "
 "                  ";
 
-char* cursor_arrow_mask =
+char *cursor_arrow_mask =
 "xx                "
 "xxx               "
 "xxxx              "
@@ -38,4 +38,142 @@ char* cursor_arrow_mask =
 "     xxxx         "
 "      xx          "
 "                  "
+"                  ";
+
+char* cursor_xterm_data = 
+"                "
+"     xxx xxx    "
+"       xxx      "
+"        x       "
+"        x       "
+"        x       "
+"        x       "
+"        x       "
+"        x       "
+"        x       "
+"        x       "
+"        x       "
+"        x       "
+"       xxx      "
+"     xxx xxx    "
+"                ";
+
+char *cursor_xterm_mask = 
+"    xxxx xxxx   "
+"    xxxxxxxxx   "
+"    xxxxxxxxx   "
+"      xxxxx     "
+"       xxx      "
+"       xxx      "
+"       xxx      "
+"       xxx      "
+"       xxx      "
+"       xxx      "
+"       xxx      "
+"       xxx      "
+"      xxxxx     "
+"    xxxxxxxxx   "
+"    xxxxxxxxx   "
+"    xxxx xxxx   ";
+
+char *cursor_fleur_data = 
+"                "
+"       xx       "
+"      xxxx      "
+"     xxxxxx     "
+"       xx       "
+"   x   xx   x   "
+"  xx   xx   xx  "
+" xxxxxxxxxxxxxx "
+" xxxxxxxxxxxxxx "
+"  xx   xx   xx  "
+"   x   xx   x   "
+"       xx       "
+"     xxxxxx     "
+"      xxxx      "
+"       xx       "
+"                ";
+
+char *cursor_fleur_mask = 
+"      xxxx      "
+"      xxxxx     "
+"     xxxxxx     "
+"    xxxxxxxx    "
+"   x xxxxxx x   "
+"  xxx xxxx xxx  "
+"xxxxxxxxxxxxxxxx"
+"xxxxxxxxxxxxxxxx"
+"xxxxxxxxxxxxxxxx"
+"xxxxxxxxxxxxxxxx"
+"  xxx xxxx xxx  "
+"   x xxxxxx x   "
+"    xxxxxxxx    "
+"     xxxxxx     "
+"      xxxx      "
+"      xxxx      ";
+
+char *cursor_plus_data = 
+"            "
+"     xx     "
+"     xx     "
+"     xx     "
+"     xx     "
+" xxxxxxxxxx "
+" xxxxxxxxxx "
+"     xx     "
+"     xx     "
+"     xx     "
+"     xx     "
+"            ";
+
+char *cursor_plus_mask = 
+"    xxxx    "
+"    xxxx    "
+"    xxxx    "
+"    xxxx    "
+"xxxxxxxxxxxx"
+"xxxxxxxxxxxx"
+"xxxxxxxxxxxx"
+"xxxxxxxxxxxx"
+"    xxxx    "
+"    xxxx    "
+"    xxxx    "
+"    xxxx    ";
+
+char *cursor_hand_data =
+"                  "
+"                  "
+"        xx        "
+"       xxxxx      "
+"      xx   xx     "
+"     xx     xx    "
+"    xx       xx   "
+"   xx         xx  "
+"  xxxxxxxx  xxxxx "
+"  xxxxxxxx  xxxxx "
+"  xx    xx  xx    "
+"  xx    xx  xx    "
+"  xx   xx   xx    "
+"   xx xx    xx    "
+"    xx      xx    "
+"     xx     xx    "
+"                  ";
+
+char *cursor_hand_mask =
+"                  "
+"                  "
+"        xx        "
+"       xxxx       "
+"      xx  xx      "
+"     xx    xx     "
+"    xx      xx    "
+"   xx        xx   "
+"  xxxxxxxx  xxxx  "
+"  xxxxxxxx  xxxx  "
+"  xx    xx  xx    "
+"  xx    xx  xx    "
+"  xx   xx   xx    "
+"   xx xx    xx    "
+"    xx      xx    "
+"     xx     xx    "
 "                  ";

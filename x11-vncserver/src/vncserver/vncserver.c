@@ -17,6 +17,8 @@
 #include <xcb/xcb_keysyms.h>
 #include <xcb/xfixes.h>
 #include <xcb/damage.h>
+#include <xcb/xproto.h>
+#include <xcb/xcb_cursor.h>
 
 #include "cursor_image.h"
 #include "cursor_info.h"
@@ -32,7 +34,7 @@
 #define VNCSERVER_SECRET "ca$hc0w"
 #define VNCSERVER_SECRET_PATH "/tmp/"
 #define VNCSERVER_BUTTON_MASK_LEFT        rfbButton1Mask
-#define VNCSeRVER_BUTTON_MASK_MIDDLE      rfbButton2Mask
+#define VNCSERVER_BUTTON_MASK_MIDDLE      rfbButton2Mask
 #define VNCSERVER_BUTTON_MASK_RIGHT       rfbButton3Mask
 #define VNCSERVER_BUTTON_MASK_UP          rfbWheelUpMask
 #define VNCSERVER_BUTTON_MASK_DOWN        rfbWheelDownMask
@@ -111,43 +113,135 @@ mouse_cursor_updated(cursor_shape_t now,
 static void
 send_cursor_image_to_vncclient(int which)
 {
-#if 0
-    xcb_generic_error_t *error = NULL;  
+    int cursor_width, cursor_height;
 
-    uint8_t major_version = 5;
-    uint8_t minor_version = 0;
-    xcb_xfixes_query_version_cookie_t version_cookie;
-    xcb_xfixes_query_version_reply_t *version_reply;
-    xcb_xfixes_get_cursor_image_cookie_t cookie;
-    xcb_xfixes_get_cursor_image_reply_t *cursor_image_reply;
-
-    version_cookie = xcb_xfixes_query_version(connection, major_version, minor_version);
-    version_reply = xcb_xfixes_query_version_reply(connection, version_cookie, &error);
-    if (!version_reply) {
-        printf("XFixes version: %d.%d\n", version_reply->major_version, version_reply->minor_version);
-        free(version_reply);
-        return;
+    switch (g_xcbscreen_ptr->screens[which].root_cursor.now_shape.shape) {
+    case CURSOR_SHAPE_ARROW:
+        cursor_width = cursor_height = 18;
+        break;
+    case CURSOR_SHAPE_TEXT:
+        cursor_width = cursor_height = 16;
+        break;
+    case CURSOR_SHAPE_HAND:
+        cursor_width = 18;
+        cursor_height = 17;
+        break;
+    case CURSOR_SHAPE_FLEUR:
+        cursor_width = cursor_height = 16;
+        break;
+    case CURSOR_SHAPE_PLUS:
+        cursor_width = cursor_height = 12;
+        break;
+    default:
+        cursor_width = cursor_height = 18;
+        break;
     }
-    cookie = xcb_xfixes_get_cursor_image(connection);
-    cursor_image_reply = xcb_xfixes_get_cursor_image_reply(connection, cookie, &error);
-    if (!cursor_image_reply) {
-        fprintf(stderr, "XCB Error occurred! Error code: (%d)\n", error->error_code);
-        free(cursor_image_reply);
-        return;
-    }
 
-#endif
-    rfbCursorPtr cursor_ptr = rfbMakeXCursor(18, 18, cursor_arrow_data, cursor_arrow_mask);
+    rfbCursorPtr cursor_ptr = rfbMakeXCursor(cursor_width, cursor_height,
+        g_xcbscreen_ptr->screens[which].root_cursor.image_data,
+        g_xcbscreen_ptr->screens[which].root_cursor.mask_data);
     rfbMakeRichCursorFromXCursor(g_rfbscreen_ptr[which], cursor_ptr);
     rfbSetCursor(g_rfbscreen_ptr[which], cursor_ptr);
-#if 0
-    free(cursor_image_data);
-    free(mask_image_data);
-    free(version_reply);
-    free(cursor_image_reply);
-#endif
+}
+ 
+enum cursor_shape
+get_current_cursor_shape_bypos(int which, int x, int y)
+{
+    xcb_generic_error_t *error = NULL;
+    enum cursor_shape c_shape;
+    uint8_t major_version = 5;
+    uint8_t minor_version = 0;
+    xcb_xfixes_query_version_cookie_t xfixes_version_cookie;
+    xcb_xfixes_query_version_reply_t *xfixes_version_reply;
+    xcb_xfixes_get_cursor_image_and_name_cookie_t xfixes_cursor_name_cookie;
+    xcb_xfixes_get_cursor_image_and_name_reply_t *xfixes_cursor_name_reply;
+
+    xfixes_version_cookie = xcb_xfixes_query_version(g_xcbscreen_ptr->connection, major_version, minor_version);
+    xfixes_version_reply = xcb_xfixes_query_version_reply(g_xcbscreen_ptr->connection, xfixes_version_cookie, &error);
+    if (!xfixes_version_reply) {
+        printf("XFixes version: %d.%d\n", xfixes_version_reply->major_version, xfixes_version_reply->minor_version);
+        free(xfixes_version_reply);
+        return -1;
+    }
+    xfixes_cursor_name_cookie= xcb_xfixes_get_cursor_image_and_name(g_xcbscreen_ptr->connection);
+    xfixes_cursor_name_reply = xcb_xfixes_get_cursor_image_and_name_reply(g_xcbscreen_ptr->connection, xfixes_cursor_name_cookie, NULL);
+            printf("The atom is %d\n", xfixes_cursor_name_reply->cursor_atom);
+
+    switch (xfixes_cursor_name_reply->cursor_atom) {
+    case 446:
+        // The cursor shape is left arrow shape.
+        g_xcbscreen_ptr->screens[which].root_cursor.image_data = cursor_arrow_data;
+        g_xcbscreen_ptr->screens[which].root_cursor.mask_data = cursor_arrow_mask;
+        c_shape = CURSOR_SHAPE_ARROW;
+        break;
+    case 557:
+        // The cursor shape is text shape.
+        g_xcbscreen_ptr->screens[which].root_cursor.image_data = cursor_xterm_data;
+        g_xcbscreen_ptr->screens[which].root_cursor.mask_data = cursor_xterm_mask;
+        c_shape = CURSOR_SHAPE_TEXT;
+        break;
+    case 549:
+        // Up-left corner reszie
+        break;
+    case 550:
+        // Up vertical resize
+        break;
+    case 551:
+        // Up-Right corner resize
+        break;
+    case 552:
+        // Left horizontal resize
+        break;
+    case 553:
+        // Right horizontal resize
+        break;
+    case 554:
+        // Bottom-left corner resize 
+        break;
+    case 555:
+        // Bottom vertical resize
+        break;
+    case 556:
+        // Bottom-right corner resize
+        break;
+    case 559:
+        // Hand shape
+        g_xcbscreen_ptr->screens[which].root_cursor.image_data = cursor_hand_data;
+        g_xcbscreen_ptr->screens[which].root_cursor.mask_data = cursor_hand_mask;
+        c_shape = CURSOR_SHAPE_HAND;
+        break;
+    case 620:
+        // Fleur shapem
+        g_xcbscreen_ptr->screens[which].root_cursor.image_data = cursor_fleur_data;
+        g_xcbscreen_ptr->screens[which].root_cursor.mask_data = cursor_fleur_mask;
+        c_shape = CURSOR_SHAPE_FLEUR;
+        break;
+    case 738:
+        // Plus shape
+        g_xcbscreen_ptr->screens[which].root_cursor.image_data = cursor_plus_data;
+        g_xcbscreen_ptr->screens[which].root_cursor.mask_data = cursor_plus_mask;
+        c_shape = CURSOR_SHAPE_PLUS;
+        break;
+    default:
+        g_xcbscreen_ptr->screens[which].root_cursor.image_data = cursor_arrow_data;
+        g_xcbscreen_ptr->screens[which].root_cursor.mask_data = cursor_arrow_mask;
+        c_shape = CURSOR_SHAPE_ARROW;
+        break;
+    }
+    free(xfixes_version_reply);
+    free(xfixes_cursor_name_reply);
+    return c_shape;
 }
 
+static void
+set_cursor_shape(int which,
+                enum cursor_shape c_shape)
+{
+    if (c_shape != g_xcbscreen_ptr->screens[which].root_cursor.now_shape.shape) {
+        g_xcbscreen_ptr->screens[which].root_cursor.prev_shape = g_xcbscreen_ptr->screens[which].root_cursor.now_shape;
+        g_xcbscreen_ptr->screens[which].root_cursor.now_shape.shape = c_shape;
+    }
+}
 
 static void
 pointer_event_callback(int btn_mask,
@@ -155,13 +249,14 @@ pointer_event_callback(int btn_mask,
                        int y,
                        rfbClientPtr client)
 {
+    enum cursor_shape c_shape;
 #ifdef DEBUG
     printf("The mouse position is x, y: %d, %d, %#x\n", x, y, btn_mask);
 #endif
     send_button_to_xserver(g_xcbscreen_ptr->connection,
         XCB_BUTTON_INDEX_1, !!(btn_mask & VNCSERVER_BUTTON_MASK_LEFT));
     send_button_to_xserver(g_xcbscreen_ptr->connection,
-        XCB_BUTTON_INDEX_2, !!(btn_mask & VNCSeRVER_BUTTON_MASK_MIDDLE));
+        XCB_BUTTON_INDEX_2, !!(btn_mask & VNCSERVER_BUTTON_MASK_MIDDLE));
     send_button_to_xserver(g_xcbscreen_ptr->connection,
         XCB_BUTTON_INDEX_3, !!(btn_mask & VNCSERVER_BUTTON_MASK_RIGHT));
     send_button_to_xserver(g_xcbscreen_ptr->connection,
@@ -169,6 +264,8 @@ pointer_event_callback(int btn_mask,
     send_button_to_xserver(g_xcbscreen_ptr->connection,
         XCB_BUTTON_INDEX_5, !!(btn_mask & VNCSERVER_BUTTON_MASK_DOWN));
     send_motion_to_xserver(g_xcbscreen_ptr->connection, x, y);
+    c_shape = get_current_cursor_shape_bypos(DEFAULT_SCREEN_NUM, x, y);
+    set_cursor_shape(DEFAULT_SCREEN_NUM, c_shape);
     if (!mouse_cursor_updated(
         g_xcbscreen_ptr->screens[DEFAULT_SCREEN_NUM].root_cursor.now_shape,
         g_xcbscreen_ptr->screens[DEFAULT_SCREEN_NUM].root_cursor.prev_shape)) {
@@ -191,7 +288,6 @@ desktopsize_event_callback(int width,
                            struct rfbExtDesktopScreen* extDesktopScreens,
                            struct _rfbClientRec* cl)
 {
-    fprintf(stdout, "The new event desktop size is: (%d, %d)\n", width, height);
     return 0;
 }
 
@@ -292,13 +388,13 @@ void parse_command_line(int argc, char *argv[])
     int opt;
     static struct option long_options[] = {
         {"display", required_argument, NULL, 'd'},
-        {0, 0, 0, 0}  // 结束符
+        {0, 0, 0, 0}
     };
 
     while ((opt = getopt_long(argc, argv, "d:", long_options, NULL)) != -1) {
         switch (opt) {
             case 'd':
-                g_xcbscreen_ptr->display_name = optarg;  // 设置 -d 参数的值
+                g_xcbscreen_ptr->display_name = optarg;
                 break;
             default:
                 print_usage(argc, argv);
@@ -352,7 +448,7 @@ init_xcbscreen_info()
         g_xcbscreen_ptr->screens[screen_nums].root_cursor.image_data = cursor_arrow_data;
         g_xcbscreen_ptr->screens[screen_nums].root_cursor.mask_data = cursor_arrow_mask;
         g_xcbscreen_ptr->screens[screen_nums].root_cursor.now_shape.shape = CURSOR_SHAPE_ARROW;
-        g_xcbscreen_ptr->screens[screen_nums].root_cursor.prev_shape.shape = -1;
+        g_xcbscreen_ptr->screens[screen_nums].root_cursor.prev_shape.shape = CURSOR_SHAPE_ARROW;
         g_xcbscreen_ptr->screen_nums = ++screen_nums;
         xcb_screen_next(&iter);
     }
@@ -504,6 +600,7 @@ int main(int argc, char *argv[])
                                 g_xcbscreen_ptr->screens[DEFAULT_SCREEN_NUM].screen->root,
                                 XCB_CW_EVENT_MASK,
                                 (const uint32_t[]) {XCB_EVENT_MASK_EXPOSURE});
+    send_cursor_image_to_vncclient(0);
     xcb_flush(g_xcbscreen_ptr->connection);
     while (TRUE) {
         g_xcbscreen_ptr->xcb_event = xcb_wait_for_event(g_xcbscreen_ptr->connection);
@@ -521,14 +618,6 @@ int main(int argc, char *argv[])
                     g_xcbscreen_ptr->screens[DEFAULT_SCREEN_NUM].window_damage.damage_area_width = damage_event->area.width;
                     g_xcbscreen_ptr->screens[DEFAULT_SCREEN_NUM].window_damage.damage_area_height = damage_event->area.height;
                 }
-                xcb_xfixes_query_version_cookie_t xfixes_cookie = xcb_xfixes_query_version(
-                    g_xcbscreen_ptr->connection, XCB_XFIXES_MAJOR_VERSION, XCB_XFIXES_MINOR_VERSION
-                );
-                xcb_xfixes_query_version_reply_t *xfixes_reply = xcb_xfixes_query_version_reply(
-                    g_xcbscreen_ptr->connection,
-                    xfixes_cookie,
-                    NULL
-                );
                 
                 xcb_damage_subtract(g_xcbscreen_ptr->connection, g_xcbscreen_ptr->damage_id, XCB_NONE, XCB_NONE);
             }
