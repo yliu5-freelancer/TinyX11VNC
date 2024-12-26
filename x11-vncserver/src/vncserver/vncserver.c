@@ -114,7 +114,7 @@ static void
 send_cursor_image_to_vncclient(int which)
 {
     int cursor_width, cursor_height;
-
+    
     switch (g_xcbscreen_ptr->screens[which].root_cursor.now_shape.shape) {
     case CURSOR_SHAPE_ARROW:
         cursor_width = cursor_height = 18;
@@ -124,13 +124,17 @@ send_cursor_image_to_vncclient(int which)
         break;
     case CURSOR_SHAPE_HAND:
         cursor_width = 18;
-        cursor_height = 17;
+        cursor_height = 15;
         break;
     case CURSOR_SHAPE_FLEUR:
         cursor_width = cursor_height = 16;
         break;
     case CURSOR_SHAPE_PLUS:
         cursor_width = cursor_height = 12;
+        break;
+    case CURSOR_SHAPE_ULRESIZE:
+        cursor_width = 18;
+        cursor_height = 12;
         break;
     default:
         cursor_width = cursor_height = 18;
@@ -152,9 +156,14 @@ get_current_cursor_shape_bypos(int which, int x, int y)
     uint8_t major_version = 5;
     uint8_t minor_version = 0;
     xcb_xfixes_query_version_cookie_t xfixes_version_cookie;
-    xcb_xfixes_query_version_reply_t *xfixes_version_reply;
+    xcb_xfixes_query_version_reply_t *xfixes_version_reply = NULL;
     xcb_xfixes_get_cursor_image_and_name_cookie_t xfixes_cursor_name_cookie;
-    xcb_xfixes_get_cursor_image_and_name_reply_t *xfixes_cursor_name_reply;
+    xcb_xfixes_get_cursor_image_and_name_reply_t *xfixes_cursor_name_reply = NULL;
+    xcb_get_atom_name_cookie_t atom_cookie;
+    xcb_get_atom_name_reply_t *atom_reply = NULL;
+    char *cursor_name;
+    int cursor_name_len = 0;
+    char real_cursor_name[256] = {0};
 
     xfixes_version_cookie = xcb_xfixes_query_version(g_xcbscreen_ptr->connection, major_version, minor_version);
     xfixes_version_reply = xcb_xfixes_query_version_reply(g_xcbscreen_ptr->connection, xfixes_version_cookie, &error);
@@ -165,71 +174,56 @@ get_current_cursor_shape_bypos(int which, int x, int y)
     }
     xfixes_cursor_name_cookie= xcb_xfixes_get_cursor_image_and_name(g_xcbscreen_ptr->connection);
     xfixes_cursor_name_reply = xcb_xfixes_get_cursor_image_and_name_reply(g_xcbscreen_ptr->connection, xfixes_cursor_name_cookie, NULL);
-            printf("The atom is %d\n", xfixes_cursor_name_reply->cursor_atom);
 
-    switch (xfixes_cursor_name_reply->cursor_atom) {
-    case 446:
-        // The cursor shape is left arrow shape.
+    if (xfixes_cursor_name_reply->cursor_atom != 0) {
+        atom_cookie = xcb_get_atom_name(g_xcbscreen_ptr->connection, xfixes_cursor_name_reply->cursor_atom);
+        atom_reply = xcb_get_atom_name_reply(g_xcbscreen_ptr->connection, atom_cookie, NULL);
+        cursor_name = xcb_get_atom_name_name(atom_reply);
+        cursor_name_len = xcb_get_atom_name_name_length(atom_reply);
+        if (strncmp(cursor_name, "left_ptr", cursor_name_len) == 0) {
+            // The cursor shape is left arrow shape.
+            g_xcbscreen_ptr->screens[which].root_cursor.image_data = cursor_arrow_data;
+            g_xcbscreen_ptr->screens[which].root_cursor.mask_data = cursor_arrow_mask;
+            c_shape = CURSOR_SHAPE_ARROW;
+        } else if (strncmp(cursor_name, "text", cursor_name_len) == 0) {
+            // The cursor shape is text shape.
+            g_xcbscreen_ptr->screens[which].root_cursor.image_data = cursor_xterm_data;
+            g_xcbscreen_ptr->screens[which].root_cursor.mask_data = cursor_xterm_mask;
+            c_shape = CURSOR_SHAPE_TEXT;
+        } else if (strncmp(cursor_name, "top_left_corner", cursor_name_len) == 0 ||
+                   strncmp(cursor_name, "nw-resize", cursor_name_len) == 0) {
+            // Up-left corner reszie
+            g_xcbscreen_ptr->screens[which].root_cursor.image_data = cursor_left_up_resize_data;
+            g_xcbscreen_ptr->screens[which].root_cursor.mask_data = cursor_left_up_resize_mask;
+            c_shape = CURSOR_SHAPE_ULRESIZE;     
+        } else if (strncmp(cursor_name, "pointer", cursor_name_len) == 0) {
+            g_xcbscreen_ptr->screens[which].root_cursor.image_data = cursor_hand_data;
+            g_xcbscreen_ptr->screens[which].root_cursor.mask_data = cursor_hand_mask;
+            c_shape = CURSOR_SHAPE_HAND;
+        } else if (strncmp(cursor_name, "fleur", cursor_name_len) == 0) {
+            // Fleur shapem
+            g_xcbscreen_ptr->screens[which].root_cursor.image_data = cursor_fleur_data;
+            g_xcbscreen_ptr->screens[which].root_cursor.mask_data = cursor_fleur_mask;
+            c_shape = CURSOR_SHAPE_FLEUR;
+        } else if (strncmp(cursor_name, "crosshair", cursor_name_len) == 0) {
+            // Plus shape
+            g_xcbscreen_ptr->screens[which].root_cursor.image_data = cursor_plus_data;
+            g_xcbscreen_ptr->screens[which].root_cursor.mask_data = cursor_plus_mask;
+            c_shape = CURSOR_SHAPE_PLUS;
+        } else {
+            g_xcbscreen_ptr->screens[which].root_cursor.image_data = cursor_arrow_data;
+            g_xcbscreen_ptr->screens[which].root_cursor.mask_data = cursor_arrow_mask;
+            c_shape = CURSOR_SHAPE_ARROW;
+        }
+    } else {
         g_xcbscreen_ptr->screens[which].root_cursor.image_data = cursor_arrow_data;
         g_xcbscreen_ptr->screens[which].root_cursor.mask_data = cursor_arrow_mask;
         c_shape = CURSOR_SHAPE_ARROW;
-        break;
-    case 557:
-        // The cursor shape is text shape.
-        g_xcbscreen_ptr->screens[which].root_cursor.image_data = cursor_xterm_data;
-        g_xcbscreen_ptr->screens[which].root_cursor.mask_data = cursor_xterm_mask;
-        c_shape = CURSOR_SHAPE_TEXT;
-        break;
-    case 549:
-        // Up-left corner reszie
-        break;
-    case 550:
-        // Up vertical resize
-        break;
-    case 551:
-        // Up-Right corner resize
-        break;
-    case 552:
-        // Left horizontal resize
-        break;
-    case 553:
-        // Right horizontal resize
-        break;
-    case 554:
-        // Bottom-left corner resize 
-        break;
-    case 555:
-        // Bottom vertical resize
-        break;
-    case 556:
-        // Bottom-right corner resize
-        break;
-    case 559:
-        // Hand shape
-        g_xcbscreen_ptr->screens[which].root_cursor.image_data = cursor_hand_data;
-        g_xcbscreen_ptr->screens[which].root_cursor.mask_data = cursor_hand_mask;
-        c_shape = CURSOR_SHAPE_HAND;
-        break;
-    case 620:
-        // Fleur shapem
-        g_xcbscreen_ptr->screens[which].root_cursor.image_data = cursor_fleur_data;
-        g_xcbscreen_ptr->screens[which].root_cursor.mask_data = cursor_fleur_mask;
-        c_shape = CURSOR_SHAPE_FLEUR;
-        break;
-    case 738:
-        // Plus shape
-        g_xcbscreen_ptr->screens[which].root_cursor.image_data = cursor_plus_data;
-        g_xcbscreen_ptr->screens[which].root_cursor.mask_data = cursor_plus_mask;
-        c_shape = CURSOR_SHAPE_PLUS;
-        break;
-    default:
-        g_xcbscreen_ptr->screens[which].root_cursor.image_data = cursor_arrow_data;
-        g_xcbscreen_ptr->screens[which].root_cursor.mask_data = cursor_arrow_mask;
-        c_shape = CURSOR_SHAPE_ARROW;
-        break;
     }
+
     free(xfixes_version_reply);
     free(xfixes_cursor_name_reply);
+    free(atom_reply);
     return c_shape;
 }
 

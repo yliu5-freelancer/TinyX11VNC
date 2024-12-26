@@ -11,4 +11,7 @@ extern char *cursor_plus_data;
 extern char *cursor_plus_mask;
 extern char *cursor_hand_data;
 extern char *cursor_hand_mask;
+extern char *cursor_left_up_resize_data;
+extern char *cursor_left_up_resize_mask;
+
 #endif
