@@ -1,0 +1,554 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		F2A440652D1D9A0C00AE0032 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F2A4404B2D1D9A0A00AE0032 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F2A440522D1D9A0A00AE0032;
+			remoteInfo = "x11-vncclient-macos";
+		};
+		F2A4406F2D1D9A0C00AE0032 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F2A4404B2D1D9A0A00AE0032 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F2A440522D1D9A0A00AE0032;
+			remoteInfo = "x11-vncclient-macos";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		F2A440532D1D9A0A00AE0032 /* x11-vncclient-macos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "x11-vncclient-macos.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2A440642D1D9A0C00AE0032 /* x11-vncclient-macosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "x11-vncclient-macosTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2A4406E2D1D9A0C00AE0032 /* x11-vncclient-macosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "x11-vncclient-macosUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		F2A440552D1D9A0A00AE0032 /* x11-vncclient-macos */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "x11-vncclient-macos";
+			sourceTree = "<group>";
+		};
+		F2A440672D1D9A0C00AE0032 /* x11-vncclient-macosTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "x11-vncclient-macosTests";
+			sourceTree = "<group>";
+		};
+		F2A440712D1D9A0C00AE0032 /* x11-vncclient-macosUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "x11-vncclient-macosUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F2A440502D1D9A0A00AE0032 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F2A440612D1D9A0C00AE0032 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F2A4406B2D1D9A0C00AE0032 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F2A4404A2D1D9A0A00AE0032 = {
+			isa = PBXGroup;
+			children = (
+				F2A440552D1D9A0A00AE0032 /* x11-vncclient-macos */,
+				F2A440672D1D9A0C00AE0032 /* x11-vncclient-macosTests */,
+				F2A440712D1D9A0C00AE0032 /* x11-vncclient-macosUITests */,
+				F2A440542D1D9A0A00AE0032 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F2A440542D1D9A0A00AE0032 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F2A440532D1D9A0A00AE0032 /* x11-vncclient-macos.app */,
+				F2A440642D1D9A0C00AE0032 /* x11-vncclient-macosTests.xctest */,
+				F2A4406E2D1D9A0C00AE0032 /* x11-vncclient-macosUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F2A440522D1D9A0A00AE0032 /* x11-vncclient-macos */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F2A440782D1D9A0C00AE0032 /* Build configuration list for PBXNativeTarget "x11-vncclient-macos" */;
+			buildPhases = (
+				F2A4404F2D1D9A0A00AE0032 /* Sources */,
+				F2A440502D1D9A0A00AE0032 /* Frameworks */,
+				F2A440512D1D9A0A00AE0032 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				F2A440552D1D9A0A00AE0032 /* x11-vncclient-macos */,
+			);
+			name = "x11-vncclient-macos";
+			packageProductDependencies = (
+			);
+			productName = "x11-vncclient-macos";
+			productReference = F2A440532D1D9A0A00AE0032 /* x11-vncclient-macos.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F2A440632D1D9A0C00AE0032 /* x11-vncclient-macosTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F2A4407B2D1D9A0C00AE0032 /* Build configuration list for PBXNativeTarget "x11-vncclient-macosTests" */;
+			buildPhases = (
+				F2A440602D1D9A0C00AE0032 /* Sources */,
+				F2A440612D1D9A0C00AE0032 /* Frameworks */,
+				F2A440622D1D9A0C00AE0032 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F2A440662D1D9A0C00AE0032 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				F2A440672D1D9A0C00AE0032 /* x11-vncclient-macosTests */,
+			);
+			name = "x11-vncclient-macosTests";
+			packageProductDependencies = (
+			);
+			productName = "x11-vncclient-macosTests";
+			productReference = F2A440642D1D9A0C00AE0032 /* x11-vncclient-macosTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		F2A4406D2D1D9A0C00AE0032 /* x11-vncclient-macosUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F2A4407E2D1D9A0C00AE0032 /* Build configuration list for PBXNativeTarget "x11-vncclient-macosUITests" */;
+			buildPhases = (
+				F2A4406A2D1D9A0C00AE0032 /* Sources */,
+				F2A4406B2D1D9A0C00AE0032 /* Frameworks */,
+				F2A4406C2D1D9A0C00AE0032 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F2A440702D1D9A0C00AE0032 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				F2A440712D1D9A0C00AE0032 /* x11-vncclient-macosUITests */,
+			);
+			name = "x11-vncclient-macosUITests";
+			packageProductDependencies = (
+			);
+			productName = "x11-vncclient-macosUITests";
+			productReference = F2A4406E2D1D9A0C00AE0032 /* x11-vncclient-macosUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F2A4404B2D1D9A0A00AE0032 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1610;
+				LastUpgradeCheck = 1610;
+				TargetAttributes = {
+					F2A440522D1D9A0A00AE0032 = {
+						CreatedOnToolsVersion = 16.1;
+					};
+					F2A440632D1D9A0C00AE0032 = {
+						CreatedOnToolsVersion = 16.1;
+						TestTargetID = F2A440522D1D9A0A00AE0032;
+					};
+					F2A4406D2D1D9A0C00AE0032 = {
+						CreatedOnToolsVersion = 16.1;
+						TestTargetID = F2A440522D1D9A0A00AE0032;
+					};
+				};
+			};
+			buildConfigurationList = F2A4404E2D1D9A0A00AE0032 /* Build configuration list for PBXProject "x11-vncclient-macos" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F2A4404A2D1D9A0A00AE0032;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = F2A440542D1D9A0A00AE0032 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F2A440522D1D9A0A00AE0032 /* x11-vncclient-macos */,
+				F2A440632D1D9A0C00AE0032 /* x11-vncclient-macosTests */,
+				F2A4406D2D1D9A0C00AE0032 /* x11-vncclient-macosUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F2A440512D1D9A0A00AE0032 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F2A440622D1D9A0C00AE0032 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F2A4406C2D1D9A0C00AE0032 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F2A4404F2D1D9A0A00AE0032 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F2A440602D1D9A0C00AE0032 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F2A4406A2D1D9A0C00AE0032 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F2A440662D1D9A0C00AE0032 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F2A440522D1D9A0A00AE0032 /* x11-vncclient-macos */;
+			targetProxy = F2A440652D1D9A0C00AE0032 /* PBXContainerItemProxy */;
+		};
+		F2A440702D1D9A0C00AE0032 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F2A440522D1D9A0A00AE0032 /* x11-vncclient-macos */;
+			targetProxy = F2A4406F2D1D9A0C00AE0032 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		F2A440762D1D9A0C00AE0032 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		F2A440772D1D9A0C00AE0032 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		F2A440792D1D9A0C00AE0032 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "x11-vncclient-macos/x11_vncclient_macos.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"x11-vncclient-macos/Preview Content\"";
+				DEVELOPMENT_TEAM = 953MTBP9Q9;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Persoanlize.x11-vncclient-macos";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		F2A4407A2D1D9A0C00AE0032 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "x11-vncclient-macos/x11_vncclient_macos.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"x11-vncclient-macos/Preview Content\"";
+				DEVELOPMENT_TEAM = 953MTBP9Q9;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Persoanlize.x11-vncclient-macos";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		F2A4407C2D1D9A0C00AE0032 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 953MTBP9Q9;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Persoanlize.x11-vncclient-macosTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/x11-vncclient-macos.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/x11-vncclient-macos";
+			};
+			name = Debug;
+		};
+		F2A4407D2D1D9A0C00AE0032 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 953MTBP9Q9;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Persoanlize.x11-vncclient-macosTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/x11-vncclient-macos.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/x11-vncclient-macos";
+			};
+			name = Release;
+		};
+		F2A4407F2D1D9A0C00AE0032 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 953MTBP9Q9;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Persoanlize.x11-vncclient-macosUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "x11-vncclient-macos";
+			};
+			name = Debug;
+		};
+		F2A440802D1D9A0C00AE0032 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 953MTBP9Q9;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Persoanlize.x11-vncclient-macosUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "x11-vncclient-macos";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F2A4404E2D1D9A0A00AE0032 /* Build configuration list for PBXProject "x11-vncclient-macos" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F2A440762D1D9A0C00AE0032 /* Debug */,
+				F2A440772D1D9A0C00AE0032 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F2A440782D1D9A0C00AE0032 /* Build configuration list for PBXNativeTarget "x11-vncclient-macos" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F2A440792D1D9A0C00AE0032 /* Debug */,
+				F2A4407A2D1D9A0C00AE0032 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F2A4407B2D1D9A0C00AE0032 /* Build configuration list for PBXNativeTarget "x11-vncclient-macosTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F2A4407C2D1D9A0C00AE0032 /* Debug */,
+				F2A4407D2D1D9A0C00AE0032 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F2A4407E2D1D9A0C00AE0032 /* Build configuration list for PBXNativeTarget "x11-vncclient-macosUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F2A4407F2D1D9A0C00AE0032 /* Debug */,
+				F2A440802D1D9A0C00AE0032 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F2A4404B2D1D9A0A00AE0032 /* Project object */;
+}
