@@ -1,5 +1,5 @@
 //
-//  x11_vncclient_macosUITestsLaunchTests.swift
+//  X11VNCClientUITestsLaunchTests.swift
 //  x11-vncclient-macosUITests
 //
 //  Created by Yu Liu on 2024/12/26.
@@ -7,7 +7,7 @@
 
 import XCTest
 
-final class x11_vncclient_macosUITestsLaunchTests: XCTestCase {
+final class X11VNCClientUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

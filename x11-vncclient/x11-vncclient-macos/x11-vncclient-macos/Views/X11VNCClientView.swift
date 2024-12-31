@@ -9,8 +9,8 @@ import SwiftUI
 
 
 struct X11VNCClientView: View {
-    @State private var vncHostList: [VNCHostInfo] = []
-    @State private var selectedHost: VNCHostInfo? = nil
+    @State private var vncHostList: [VNCRemoteHostInfo] = []
+    @State private var selectedHost: VNCRemoteHostInfo? = nil
     @State private var showRemoteDialog = false
     @State private var showSettingsDialog = false
 

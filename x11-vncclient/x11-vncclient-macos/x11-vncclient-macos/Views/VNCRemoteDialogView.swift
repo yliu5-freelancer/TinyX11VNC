@@ -11,14 +11,14 @@ import SwiftUI
 
 struct VNCRemoteDialogView: View {
     @Binding var showRemoteDialog: Bool
-    @Binding var hostList: [VNCHostInfo]
+    @Binding var hostList: [VNCRemoteHostInfo]
     @State private var hostAddr: String = ""
     @State private var hostPort: String = ""
     @State private var hostIPAddress = IPAddress.ipv4(IPV4Address(from: ""))
     @State private var hostAddrIsValid: Bool = false
     @State private var hostPortIsValid: Bool = false
 
-    let hostAddrRegex = "^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|^[a-zA-Z0-9-]{1,63}(\\.[a-zA-Z0-9-]{1,63})*\\.[a-zA-Z]{2,}$"
+    let hostAddrRegex = "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([a-zA-Z0-9-]{1,63}\\.)+[a-zA-Z]{2,})$"
     let hostPortRegex = "^([0-9]{1,5})$"
 
     var body: some View {
@@ -34,7 +34,7 @@ struct VNCRemoteDialogView: View {
                             .textFieldStyle(.roundedBorder)
                             .disableAutocorrection(true)
                             .onChange(of: hostAddr) { oldValue, newValue in
-                                hostAddr = newValue.filter { $0.isNumber || $0.isLetter || $0 == "." || $0 == "-" }
+                                hostAddr = newValue.filter { $0.isNumber || $0.isLetter || $0 == "." || $0 == "-" || $0 == ":"}
                                 hostAddrIsValid = NSPredicate(format: "SELF MATCHES %@", hostAddrRegex).evaluate(with: hostAddr)
                             }
                             .help("Please Input a IP address or FQDN.")
@@ -88,7 +88,7 @@ struct VNCRemoteDialogView: View {
                 Button("Ok") {
                     if !hostAddr.isEmpty && !hostPort.isEmpty {
                         if (hostAddrIsValid && hostPortIsValid) {
-                            hostList.append(VNCHostInfo(hostAddr: hostAddr, hostPort: UInt16(hostPort) ?? 0, ipAddr: hostIPAddress, connStatus: VNCHostConnStatus(vncSocketStatus: VNCSocketConnectionStatus.VNCSOCKET_NOT_CONNECT)))
+                            hostList.append(VNCRemoteHostInfo(hostAddr: hostAddr, hostPort: UInt16(hostPort) ?? 0, ipAddr: hostIPAddress, connStatus: VNCHostConnStatus(vncSocketStatus: VNCSocketConnectionStatus.VNCSOCKET_NOT_CONNECT)))
                             showRemoteDialog.toggle()
                         }
                     }

@@ -1,5 +1,5 @@
 //
-//  x11_vncclient_macosUITests.swift
+//  X11VNCClientUITests.swift
 //  x11-vncclient-macosUITests
 //
 //  Created by Yu Liu on 2024/12/26.
@@ -7,7 +7,7 @@
 
 import XCTest
 
-final class x11_vncclient_macosUITests: XCTestCase {
+final class X11VNCClientUITests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.

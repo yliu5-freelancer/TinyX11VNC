@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct VNCRemoteServerSettingsView: View {
-    @Binding var selectedHost: VNCHostInfo?
+    @Binding var selectedHost: VNCRemoteHostInfo?
     var body: some View {
         VStack {
             Text("VNC Host Information")
@@ -32,5 +32,5 @@ struct VNCRemoteServerSettingsView: View {
 }
 
 #Preview {
-    VNCRemoteServerSettingsView(selectedHost: .constant(VNCHostInfo(hostAddr: "test", hostPort: 1234, ipAddr: IPAddress.ipv4(IPV4Address(from: "123.123.123.123")), connStatus: VNCHostConnStatus(vncSocketStatus: VNCSocketConnectionStatus.VNCSOCKET_NOT_CONNECT))))
+    VNCRemoteServerSettingsView(selectedHost: .constant(VNCRemoteHostInfo(hostAddr: "test", hostPort: 1234, ipAddr: IPAddress.ipv4(IPV4Address(from: "123.123.123.123")), connStatus: VNCHostConnStatus(vncSocketStatus: VNCSocketConnectionStatus.VNCSOCKET_NOT_CONNECT))))
 }
